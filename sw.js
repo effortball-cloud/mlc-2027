@@ -1,5 +1,5 @@
 // 마요르카 보드 오프라인 캐시: 우리 사이트 파일과 글꼴만 저장(네트워크 먼저, 끊기면 저장본). 공유 데이터(Supabase)는 저장하지 않는다.
-const CACHE = "mlc-2026-11-23 23:25 KST";
+const CACHE = "mlc-2026-11-23 23:53 KST";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", e => {
   e.waitUntil((async () => {
@@ -18,7 +18,7 @@ self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
   const u = new URL(e.request.url);
   const mine = u.origin === self.location.origin && u.pathname.startsWith(new URL(self.registration.scope).pathname);
-  const font = u.hostname === "fonts.googleapis.com" || u.hostname === "fonts.gstatic.com";
+  const font = u.hostname === "fonts.googleapis.com" || u.hostname === "fonts.gstatic.com" || (u.hostname === "cdn.jsdelivr.net" && u.pathname.includes("wanted-sans"));
   if (!mine && !font) return;
   e.respondWith((async () => {
     try {
